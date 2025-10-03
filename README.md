@@ -8,7 +8,7 @@ After you accept the GitHub Classroom assignment, you need to clone the reposito
 
 ![Open Git Bash here](img/openGitBash.png)
 
-That will open a terminal with the working directory the same as the one you were in. Go to your repoository in a web browser, and click the `<> Code` drop-down. 
+That will open a terminal with the working directory the same as the one you were in. Go to your repository in a web browser, and click the `<> Code` drop-down. 
 
 ![Code drop-down](img/copyRepoLink.png)
 
@@ -31,7 +31,7 @@ OK. That window will look similar to this:
 
 The next thing you should do is test you can build and run the project. In the upper-right of CLion, next to the dropdown
 with `Debug`, you should see a drop down to the right that says `SequenceDebug`. If not, open the menu and select
-`SequenceDebug`. Next, click the hammer icon to build the project. With the project sucessfuly built, you can now run (
+`SequenceDebug`. Next, click the hammer icon to build the project. With the project successfully built, you can now run (
 or debug) the program with the triangle (or bug) icon. If you see `Your project is ready to go!` output, then your
 project is ready to go!
 
