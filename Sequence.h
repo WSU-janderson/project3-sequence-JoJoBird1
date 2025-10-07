@@ -7,7 +7,9 @@
 #ifndef CLASSES_SEQUENCE_H
 #define CLASSES_SEQUENCE_H
 
-
+/**
+ * Class: Sequence
+ */
 class Sequence {
 // private variables
 private: 

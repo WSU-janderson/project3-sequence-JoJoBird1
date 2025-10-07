@@ -4,4 +4,16 @@
 
 using namespace std;
 
-Sequence::Sequence(size_t headPoint, size_t tailPoint)
+Sequence::Sequence(size_t sz = 0) 
+    : 
+{
+
+}
+
+size_t Sequence::size() const {
+    return numElts;
+}
+
+bool Sequence::empty() const {
+    return numElts == 0;
+}
