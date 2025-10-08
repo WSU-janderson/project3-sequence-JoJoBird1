@@ -13,14 +13,14 @@
 class Sequence {
 // private variables
 private: 
-size_t headPoint;
-size_t tailPoint;
+size_t numElts;
+SequenceNode* headPointer;
+SequenceNode* tailPointer;
 
 // public variables 
 public:
 
-//  parameterized constructor
-Sequence(size_t headPoint, size_t tailPoint);
+
 
 };
 
