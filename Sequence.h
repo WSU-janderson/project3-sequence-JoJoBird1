@@ -9,7 +9,7 @@
 
 #include <string> // for strings
 #include <cstddef> // for size_t
-#include <stdexception> // for exceptions
+#include <stdexcept> // for exceptions
 
 /**
  * Class: Sequence
