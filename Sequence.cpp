@@ -8,7 +8,7 @@ Sequence::Sequence(size_t sz = 0)
     : numElts(sz), headPointer(nullptr), tailPointer(nullptr)
 {
     for (int i = 0; i < sz; i++) {
-        sz.push_back("");  // this may cause an issue for future, if so get rid of sz here
+        push_back("");  
     }
 }
 

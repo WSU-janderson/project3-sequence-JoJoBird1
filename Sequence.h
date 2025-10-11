@@ -20,6 +20,11 @@ SequenceNode* tailPointer;
 // public variables 
 public:
 
+// constructors
+
+// getters
+
+// list methods used in Sequence
 
 
 };
