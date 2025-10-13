@@ -6,7 +6,6 @@
  */
 
 #include "Sequence.h"
-#include <cstdlib>
 #include <iostream>
 #include <stdexcept>
 
@@ -21,7 +20,7 @@ using namespace std;
 Sequence::Sequence(size_t sz) 
     : numElts(sz), headPointer(nullptr), tailPointer(nullptr)
 {
-    for (int i = 0; i < sz; i++) {
+    for (size_t i = 0; i < sz; i++) {
         push_back("");  
     }
 }
@@ -35,8 +34,8 @@ Sequence::Sequence(const Sequence& s)
 {
     SequenceNode* curr = s.headPointer;
     while (curr != nullptr) {
-        push_back(curr -> item);
-        curr = curr -> next;
+        push_back(curr->item);
+        curr = curr->next;
     }
 }
 
@@ -46,7 +45,7 @@ Sequence::Sequence(const Sequence& s)
  */
 Sequence::~Sequence() {
     while (headPointer != nullptr) {
-        SequenceNode *newPointer = headPointer;
+        SequenceNode* newPointer = headPointer;
         headPointer = headPointer->next;
         delete newPointer;
     }
@@ -59,19 +58,19 @@ Sequence::~Sequence() {
  */
 Sequence& Sequence::operator=(const Sequence& s) {
     if (this != &s) {
-        SequenceNode *curr = headPointer;
+        SequenceNode* curr = headPointer;
 
         while (curr != nullptr) {
-            SequenceNode *newPointer = curr;
+            SequenceNode* newPointer = curr;
             curr = curr->next;
             delete newPointer;
         }
 
         headPointer = nullptr;
-        tailPointer = nullptr
+        tailPointer = nullptr;
         numElts = 0;
 
-        SequenceNode *other = s.head;
+        SequenceNode* other = s.headPointer;
         while (other != nullptr) {
             push_back (other->item);
             curr = other->next;
@@ -90,7 +89,7 @@ std::string& Sequence::operator[](size_t position) {
         throw std::out_of_range("Index out of Bounds.");
     }
 
-    SequenceNode *curr = headPointer;
+    SequenceNode* curr = headPointer;
     for (size_t i = 1; i < position; i++) {
         curr = curr->next;
     }
@@ -102,7 +101,7 @@ std::string& Sequence::operator[](size_t position) {
  * The value of items is appended to the sequence
  */
 void Sequence::push_back(std::string item) {
-    SequenceNode *newNode = new SequenceNode(item);
+    SequenceNode* newNode = new SequenceNode(item);
 
     if (headPointer == nullptr) {
         headPointer = newNode;
@@ -135,7 +134,7 @@ void Sequence::pop_back() {
     }
 
     else {
-        SequenceNode *oldTail = tailPointer;
+        SequenceNode* oldTail = tailPointer;
         tailPointer = tailPointer->prev;
         tailPointer->next = nullptr;
         delete oldTail;
@@ -150,10 +149,10 @@ void Sequence::pop_back() {
  */
 void Sequence::insert(size_t position, std::string item) {
     if (position >= numElts) {
-        throw out_of_range("Position is out of Range.");
+        throw std::out_of_range("Position is out of Range.");
     }
 
-    SequenceNode *newNode = new SequenceNode(item);
+    SequenceNode* newNode = new SequenceNode(item);
 
     if (position == 0) {
         newNode->next = headPointer;
@@ -174,7 +173,7 @@ void Sequence::insert(size_t position, std::string item) {
         tailPointer = newNode;
     }
     else {
-        Sequence *curr = headPointer;
+        SequenceNode* curr = headPointer;
         for (size_t i = 0; i < position; i++) {
             curr = curr->next;
         }
@@ -193,7 +192,10 @@ void Sequence::insert(size_t position, std::string item) {
  * if empty, throws an excetion
  */
 std::string Sequence::front() const {
-
+    if (headPointer == nullptr) {
+        throw std::out_of_range("The Sequence is Empty.");
+    }
+    return headPointer->item;
 }
 
 /**
@@ -202,7 +204,10 @@ std::string Sequence::front() const {
  * is sequence is empty throws an exception
  */
 std::string Sequence::back() const {
-
+    if (tailPointer == nullptr) {
+        throw std::out_of_range("The Sequence is Empty.");
+    }
+    return tailPointer->item;
 }
 
 /**
@@ -227,7 +232,17 @@ size_t Sequence::size() const {
  * resetting the sequence to an empty state to re-insert items
  */
 void Sequence::clear() {
+    SequenceNode* curr = headPointer;
 
+    while (curr != nullptr) {
+        SequenceNode* newPointer = curr->next;
+        delete curr;
+        curr = newPointer;
+    }
+
+    headPointer = nullptr;
+    tailPointer = nullptr;
+    numElts = 0;
 }
 
 /**
@@ -236,7 +251,31 @@ void Sequence::clear() {
  * if called with invalid position throws an exception
  */
 void Sequence::erase(size_t position) {
+        if (position >= numElts) {
+        throw std::out_of_range("The Position is out of Bounds.");
+    }
 
+    SequenceNode* curr = headPointer;
+    for (size_t i = 0; i < position; i++) {
+        curr = curr->next;
+    }
+
+    if (curr->next != nullptr) {
+        curr->next->prev = curr->prev;
+    }
+    else {
+        tailPointer = curr->prev;
+    }
+
+    if (curr->prev != nullptr) {
+        curr->prev->next = curr->next;
+    }
+    else {
+        headPointer = curr->next;
+    }
+
+    delete curr;
+    numElts--;
 }
 
 /**
@@ -245,7 +284,27 @@ void Sequence::erase(size_t position) {
  * if called with invalid position and/or count throws an exception
  */
 void Sequence::erase(size_t position, size_t count) {
+    if (position >= numElts || position + count >= numElts) {
+        throw std::out_of_range("The position and/or the count is out of bounds.");
+    }
 
+    for (size_t i = 0; i < count; i++) {
+        erase(position);
+    }
 }
 
 
+ostream& operator<<(ostream& os, const Sequence& s) {
+    os << "< ";
+    SequenceNode* curr = s.headPointer;
+    while (curr != nullptr) {
+        os << curr->item;
+
+        if (curr->next != nullptr) {
+            os << ", ";
+        }
+        curr = curr->next;
+    }
+    os << " >";
+    return os;
+}

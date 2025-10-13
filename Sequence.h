@@ -5,12 +5,34 @@
  * Classes: Sequence & SequenceNode
  */
 
-#ifndef CLASSES_SEQUENCE_H
-#define CLASSES_SEQUENCE_H
+#ifndef SEQUENCE_H
+#define SEQUENCE_H
 
 #include <string> // for strings
 #include <cstddef> // for size_t
 #include <stdexcept> // for exceptions
+
+/**
+ * Class: SequenceNode
+ * 
+ */
+class SequenceNode {
+    // public variables
+    public: 
+    SequenceNode* next; // pointer to the next Node. If node is the tail, next is nullptr
+    SequenceNode* prev; // point to the previous Node. If node is the head, prev is nullptr
+    std::string item; // the element being stored in the node
+
+    // default constructor, ensure next and prev are nullptr
+    SequenceNode() : next(nullptr), prev(nullptr) {}
+
+    // parameterized constructor, next and prev are set to nullptr and 
+    // the node's element  is set to the given value
+    SequenceNode(std::string item) : next(nullptr), prev(nullptr), item(item) {
+
+    }
+};
+
 
 /**
  * Class: Sequence
@@ -26,13 +48,13 @@ SequenceNode* tailPointer;
 public:
 
 // constructors
-Sequence(size_t = 0); // constructor
+Sequence(size_t sz = 0); // constructor
 Sequence(const Sequence& s); // copy constructor
 ~Sequence(); // de-constructor
 Sequence& operator=(const Sequence& s); // copy assignment operator
 
 std::string& operator[](size_t position); // access to non-const items
-const std::string& operator[](size_t position) const // access to const items
+//const std::string& operator[](size_t position) const // access to const items
 
 // getters
 std::string front() const; // return first item in the sequence, if empty throw exception
@@ -49,27 +71,8 @@ void erase(size_t position); // item removed and memory release, if called with 
 void erase(size_t position, size_t count); // items in sequence are deleted and memory released, throws exception if invalid
 
 // Friend Function. Allows access to private data. Prints items as a string to output
-friend ostream& operator<<(ostream& os, const Sequence& s);
+friend std::ostream& operator<<(std::ostream& os, const Sequence& s);
 
 };
 
-/**
- * Class: SequenceNode
- * 
- */
-class SequenceNode {
-    // public variables
-    public: 
-    SequenceNode* next; // pointer to the next Node. If node is the tail, next is nullptr
-    SequenceNode* prev; // point to the previous Node. If node is the head, prev is nullptr
-    std:: string item; // the element being stored in the node
-
-    // default constructor, ensure next and prev are nullptr
-    SequenceNode() : next(nullptr), prev(nullptr) {}
-
-    // parameterized constructor, next and prev are set to nullptr and 
-    // the node's element  is set to the given value
-    SequenceNode(std::string item) : next(nullptr), prev(nullptr), item(item) {
-
-    }
-};
+#endif
