@@ -1,5 +1,6 @@
 /**
  * Project 3: Linked Sequence Data Structure
+ * CS - 3100: Data Structures
  * Name: Jordan Wilson
  * Classes: Sequence & SequenceNode
  */

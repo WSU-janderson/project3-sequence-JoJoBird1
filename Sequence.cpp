@@ -1,5 +1,6 @@
 /**
  * Project 3: Linked Sequence Data Structure
+ * CS- 3100: Data Structures
  * Name: Jordan Wilson
  * Sequence.cpp file
  */
@@ -44,7 +45,11 @@ Sequence::Sequence(const Sequence& s)
  * destroys all items in the sequence and release the memory associated with the sequence
  */
 Sequence::~Sequence() {
-    SequenceNode* curr = 
+    while (headPointer != nullptr) {
+        SequenceNode *newPointer = headPointer;
+        headPointer = headPointer->next;
+        delete newPointer;
+    }
 }
 
 /**
@@ -53,7 +58,26 @@ Sequence::~Sequence() {
  * A reference to the copied sequence is returned (return *this)
  */
 Sequence& Sequence::operator=(const Sequence& s) {
+    if (this != &s) {
+        SequenceNode *curr = headPointer;
 
+        while (curr != nullptr) {
+            SequenceNode *newPointer = curr;
+            curr = curr->next;
+            delete newPointer;
+        }
+
+        headPointer = nullptr;
+        tailPointer = nullptr
+        numElts = 0;
+
+        SequenceNode *other = s.head;
+        while (other != nullptr) {
+            push_back (other->item);
+            curr = other->next;
+        }
+    }
+    return *this;
 }
 
 /**
@@ -62,7 +86,15 @@ Sequence& Sequence::operator=(const Sequence& s) {
  * Throws exception if the position is outside the bounds
  */
 std::string& Sequence::operator[](size_t position) {
+    if (position >= numElts) {
+        throw std::out_of_range("Index out of Bounds.");
+    }
 
+    SequenceNode *curr = headPointer;
+    for (size_t i = 1; i < position; i++) {
+        curr = curr->next;
+    }
+    return curr->item;
 }
 
 /**
@@ -70,7 +102,19 @@ std::string& Sequence::operator[](size_t position) {
  * The value of items is appended to the sequence
  */
 void Sequence::push_back(std::string item) {
+    SequenceNode *newNode = new SequenceNode(item);
 
+    if (headPointer == nullptr) {
+        headPointer = newNode;
+        tailPointer = newNode;
+    }
+
+    else {
+        tailPointer->next = newNode;
+        newNode->prev = tailPointer;
+        tailPointer = newNode;
+    }
+    numElts++;
 }
 
 /**
@@ -80,7 +124,23 @@ void Sequence::push_back(std::string item) {
  * If empty, throws exception
  */
 void Sequence::pop_back() {
+    if (headPointer == nullptr) {
+        throw std::out_of_range("The Sequence is Empty.");
+    }
 
+    else if (headPointer == tailPointer) {
+        delete tailPointer;
+        headPointer = nullptr;
+        tailPointer = nullptr;
+    }
+
+    else {
+        SequenceNode *oldTail = tailPointer;
+        tailPointer = tailPointer->prev;
+        tailPointer->next = nullptr;
+        delete oldTail;
+    }
+    numElts--;
 }
 
 /**
@@ -89,7 +149,42 @@ void Sequence::pop_back() {
  * If position is outside the bounds of the sequence throws exception
  */
 void Sequence::insert(size_t position, std::string item) {
+    if (position >= numElts) {
+        throw out_of_range("Position is out of Range.");
+    }
 
+    SequenceNode *newNode = new SequenceNode(item);
+
+    if (position == 0) {
+        newNode->next = headPointer;
+
+        if (headPointer != nullptr) {
+            headPointer->prev = newNode;
+        }
+
+        headPointer = newNode;
+
+        if (tailPointer == nullptr) {
+            tailPointer = newNode;
+        }
+    }
+    else if (position == numElts) {
+        newNode->prev = tailPointer;
+        tailPointer->next = newNode;
+        tailPointer = newNode;
+    }
+    else {
+        Sequence *curr = headPointer;
+        for (size_t i = 0; i < position; i++) {
+            curr = curr->next;
+        }
+
+        newNode->next = curr;
+        newNode->prev = curr->prev;
+        curr->prev->next = newNode;
+        curr->prev = newNode;
+    }
+    numElts++;
 }
 
 /**
@@ -115,7 +210,7 @@ std::string Sequence::back() const {
  * returns true if the sequence has no items, otherwise false
  */
 bool Sequence::empty() const {
-    return numElts == 0;
+    return headPointer == nullptr && tailPointer == nullptr;
 }
 
 /**
@@ -152,3 +247,5 @@ void Sequence::erase(size_t position) {
 void Sequence::erase(size_t position, size_t count) {
 
 }
+
+
