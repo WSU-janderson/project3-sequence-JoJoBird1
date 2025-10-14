@@ -46,7 +46,7 @@ int main() {
     cout << endl;
 
     cout << "Test for Insert Items: " << endl;              // Test for inserting items on object s
-    s.insert(3,"Crackers");                   // Inserts Crackers to object s
+    s.insert(3,"Crackers");                 // Inserts Crackers to object s
     cout << "Tested Sequence: " << s << endl;              // Prints out new list of items on object s
     cout << endl;
 
