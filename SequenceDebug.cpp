@@ -14,7 +14,7 @@ using namespace std;
 int main() {
     Sequence s;
 
-    cout << "Test for: Push Back Items" << endl;
+    cout << "Test for Push Back Items: " << endl;
     s.push_back("Apples");
     s.push_back("Bananas");
     s.push_back("Carrots");
@@ -23,6 +23,12 @@ int main() {
     s.push_back("Fish");
     s.push_back("Grapes");
     s.push_back("Ham");
+
+    cout << "Tested Sequence: " << s << endl;
+
+    cout << "Test for Pop Back Items: " << endl;
+    s.pop_back();
+    s.pop_back();
 
     cout << "Tested Sequence: " << s << endl;
 
